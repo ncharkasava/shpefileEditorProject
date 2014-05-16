@@ -1,0 +1,45 @@
+{% extends "base_shapeeditor.html" %}
+{% block content %}
+   
+ 
+  <div class="container-fluid">
+   <div class="row-fluid">
+    <div class="span8">
+     <form method="POST" action="">
+       <button type="button" class="btn btn-primary" onClick='window.location="/editor/edit/{{ shapefile.id }}";'>Back To Shapefile</button>
+       <input type="submit" class="btn btn-primary" value="Save"/>
+       <input type="submit" class="btn btn-primary" name="delete" value="Delete Feature"/>
+       </br>   
+       </br>
+       
+       {{ form.as_table }}
+       
+    </div>
+    <div class="span4">
+    {% if attributes %}
+    <h3 align="center">Attributes</h3>
+
+    <table class="table">    
+       {% for attr in attributes %}
+         <tr>
+          <td>{{ attr.0 }}</td>
+          <td>{{ attr.1 }}</td>
+          <td><button type="button" class="btn btn-primary" onClick='window.location="/editor/edit_attributevalue/{{ shapefile.id }}/{{ attr.2 }}";'/>Edit</button></td>
+         </tr>
+      {% endfor %}
+
+
+  </table>
+
+{% endif %}
+  
+{% if available %}
+
+<input type="submit" name="addattributevalue" class="btn btn-primary" onClick='window.location="/editor/add_attributevalue/{{ shapefile.id }}/{{ feature }}";' value="Add New Attribute Value"/>
+{% endif %}
+</form>
+</div>
+</div>
+
+
+{% endblock %}

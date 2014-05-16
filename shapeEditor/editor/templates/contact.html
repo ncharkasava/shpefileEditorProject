@@ -1,0 +1,22 @@
+{% extends "base_shapeeditor.html" %}
+
+{% block content %}
+<div class="span12"> 
+  <h2>Contact Us</h2>
+  
+  
+  <form action="/editor/contact/" method="post">{% csrf_token %}
+  
+        <label for="subject">Subject: </label>
+        <input type="text" name="subject" value="" class="form-control" placeholder="" required autofocus>
+        <label for="sender">Sender's Email: </label>
+        <input type="email" name="sender" value="" class="form-control" placeholder="" required>
+        <label for="message">Message: </label>
+        <textarea class="form-control" name="message" rows="3" placeholder="" required></textarea>
+         
+        <br/>
+  <button type="submit" class="btn btn-primary" value="Send"><i class="icon-envelope icon-white"></i> Send </button>
+    
+  </form>
+ </div>
+{% endblock %}

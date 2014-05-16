@@ -1,0 +1,126 @@
+<html>
+  <head>
+  
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+    <title>{% block title %}ShapeEditor Project{% endblock %}</title>
+    
+{% load staticfiles %}
+    <!-- Bootstrap -->
+    <link rel="stylesheet" type="text/css" href="{%static 'shapeEditor/css/bootstrap.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{%static 'shapeEditor/css/bootstrap.min.css' %}" />
+
+    <style type="text/css">
+
+      /* Sticky footer styles
+      -------------------------------------------------- */
+
+      html,
+      body {
+        height: 100%;
+        /* The html and body elements cannot have any padding or margin. */
+      }
+
+      /* Wrapper for page content to push down footer */
+      #wrap {
+        min-height: 100%;
+        height: auto !important;
+        height: 100%;
+        /* Negative indent footer by it's height */
+        margin: 0 auto -60px;
+      }
+
+      /* Set the fixed height of the footer here */
+      #push,
+      #footer {
+        height: 60px;
+      }
+      #footer {
+        background-color: #f5f5f5;
+      }
+
+      /* Lastly, apply responsive CSS fixes as necessary */
+      @media (max-width: 767px) {
+        #footer {
+          margin-left: -20px;
+          margin-right: -20px;
+          padding-left: 20px;
+          padding-right: 20px;
+        }
+      }
+
+</style>
+    
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script> 
+   <!-- <script src="{% static "shapeEditor/js/jquery.min.js" %}" ></script> -->
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="{% static "shapeEditor/js/bootstrap.min.js" %}" ></script>
+    <!-- Include openlayers library -->
+    <script src="{% static "shapeEditor/js/OpenLayers.js" %}"></script>    
+   
+  </head>
+  <body>
+
+
+
+<div id="wrap">
+   <div class="container">
+     <div class="span12">
+       <div class="masthead">
+        <div class="span8">
+          <h2 class="muted">ShapeEditor Project <small> Web  Application for Editing Shapefiles</small></h3>
+           </div> <!-- span8 -->
+         </div>
+<br/></br>
+         <div class="span 4 offset 8" >
+
+{% if full_name %}
+              You're logged in as {{full_name}}. <a href="/editor/logout/">Logout</a>
+{% else %}
+      
+You're not loggedIn! <a href="/editor/login/">LogIn Now</a>
+
+{% endif %}
+</div>
+</div> <!-- musthead-->
+
+</div>
+<div class="container">
+     <div class="span12">
+        <div class="navbar">
+          <div class="navbar-inner">
+            <ul class="nav nav-justified">
+               <li><a href="/editor">Home</a></li>
+          {% if full_name %}
+               <li><a href="/editor/import">Import Shapefile</a></li> {% endif %}
+               <li><a href="/editor/about">About</a></li>
+               <li><a href="/editor/help">Help</a></li>
+               <li><a href="/editor/contact">Contact</a></li>
+            </ul>
+         </div>
+        </div>
+       </div><!-- /.navbar -->
+      </div>
+<div class="container">
+
+
+    {% block content %}This is the content area{% endblock %}
+	
+
+
+</div>
+</div>
+<div id="footer">
+      <div class="container">
+         <p <p class="muted credit">ShapeEditor Project. CUNY Brooklyn College. REU. 2014</p>
+      </div>
+</div>
+</body>
+
+</html>
+
+
+

@@ -1,0 +1,42 @@
+{% extends "base_shapeeditor.html" %}
+
+{% block content %}
+ 
+<div class="span12">
+    <h1>Help Page</h1>
+
+
+<h3>Registration and Log In</h3>
+Registration link can be found on Home page or <a class="btn btn-primary" href="/editor/register"> Register Now</a>.
+Registration requires minimum information: username, email and password. You will be able to use your login information right after registration (No email confirmation is required). LogIn link can be found in a top right corner of any ShapeEditor's page or <a class="btn btn-primary" href="/editor/login"> Log In Now</a>.
+
+<h3>Upload shapefile</h3>
+<p>Only logged in users may upload shapefiles. Use <button type="button" class="btn btn-primary" onClick='window.location="/editor/import";'> Import New Shapefile </button> tool to upload your zipped shapefile. Make sure it's in .zip format and has 4 required files in there (.dbf, .prj, .shp, and .shx). Remove all unnessary files from the zip you would like to upload. Only one shapefile can be processed at a time. Multiple shapefiles upload is not supported yet</p>
+<p>Uploading may take up to 5 minutes (depends on amount of information stored in the shapefile). Please, be patient.</p>
+
+<h3>Edit Feature</h3>
+<p>Once uploaded, you can access your shapefiles anytime from your personalized Home page. Click Edit link next to the shapefile name to display shapefile. Click on a map to select desired feature. 
+Within this editor, you can make use of a number of GeoDjango's built-in features to edit the geometry:
+<ul>
+<li>	 You can click on the Edit Geometry tool (<img src="{{ ADMIN_MEDIA_PREFIX }}/static/shapeEditor/admin/img/gis/move_vertex_on.png">) to select a feature for editing.
+<li>	 You can click on the Add Geometry tool to start drawing a new geometry.
+<li>	 When a geometry is selected, you can click on a dark circle and drag it to move the endpoints of a line segment.
+<li>	 When a geometry is selected, you can click on a light circle to split an existing line segment in two, making a new point which can then be dragged.
+<li>	 If you hold the mouse down over a dark circle, you can press the Delete key (or type D) to delete that point. Note that this only works if the geometry has more than three points.
+<li>	 You can click on the Clear Feature Geometry hyperlink to delete the current feature's geometries.
+</ul>
+Once you have finished editing the feature, you can click on the Save button to save
+the edited features, or the Cancel button to abandon the changes.
+</p>
+
+Single feature page has also options to edit attribute's value associated with selected feature or add missing ones (it is set to detect all missing attributes values based on attributes in selected shapefile). 
+Use Add Feature on Edit shapefile page when you need to add a new one.</p>
+
+<h3>Save</h3>
+<p>Use export shapefile tool to save edited shapefile on your computer. Exported from ShapeEditor shapefiles may be used in any other desktop application.</p>
+
+<h3>Still Have Questions?
+<a class="btn btn-primary" href="/editor/contact">Contact Us</a>
+</h3>
+
+{% endblock %}

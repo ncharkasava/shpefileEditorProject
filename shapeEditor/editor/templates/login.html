@@ -1,0 +1,28 @@
+{% extends "base_shapeeditor.html"%}
+
+{% block content %}
+
+<div class="span12" align="center">
+  {% if form.errors %}
+    <p class="error">Sorry, that's not a valid username or password</p>
+  {% endif %}
+
+
+      <form class="form-signin" role="form" action="/editor/auth/" method="post">{% csrf_token %}
+        <h2 class="form-signin-heading">Log In</h2>
+        <label for="username">User name:</label>
+        <input type="text" name="username" value="" id="username" class="form-control" placeholder="Login" required autofocus>
+        <label for="password">Password:</label>
+        <input type="password" name="password" value="" id="password" class="form-control" placeholder="Password" required>
+        <br/><input type="submit" class="btn btn-primary" value="Log In" />
+     </form>
+</div>
+{% endblock %}
+
+   
+
+
+
+
+
+

@@ -1,0 +1,33 @@
+{% extends "base_shapeeditor.html" %}
+{% block content %}
+<div class="span12">
+    <h1>Import Shapefile</h1>
+
+
+
+{% if err_msg %}
+<div class="alert alert-danger">
+  {{ err_msg }}
+</div>
+{% endif %}
+
+{% if full_name %}
+
+  <form enctype="multipart/form-data" method="post"
+        action="import">
+    {{ form.as_p }}
+    <input type="submit" class="btn btn-primary" value="Submit"/>
+    <button type="button" class="btn btn-primary"
+            onClick='window.location="/editor";'>
+     Cancel
+    </button>
+  </form>
+<div class="alert alert-info">Warning! It may take up to few minutes to upload your shapefile. Please, be patient! </div>
+
+
+<div class="alert alert-danger">Warning! Make sure that your shapefile is in .zip format and has 4 required files in it ( .dbf, .prj, .shp, and .shx) </div>
+{% endif %}
+
+</p>Only only logged in users may use import shapefile tool</p> 
+ </div>
+{% endblock %}

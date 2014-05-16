@@ -1,0 +1,194 @@
+<html>
+  <head>
+  
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+    <title>{% block title %}ShapeEditor Project{% endblock %}</title>
+    
+{% load staticfiles %}
+    <!-- Bootstrap -->
+    <link rel="stylesheet" type="text/css" href="{%static 'shapeEditor/css/bootstrap.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{%static 'shapeEditor/css/bootstrap.min.css' %}" />
+
+    <style type="text/css">
+
+      /* Sticky footer styles
+      -------------------------------------------------- */
+
+      html,
+      body {
+        height: 100%;
+        /* The html and body elements cannot have any padding or margin. */
+      }
+
+      /* Wrapper for page content to push down footer */
+      #wrap {
+        min-height: 100%;
+        height: auto !important;
+        height: 100%;
+        /* Negative indent footer by it's height */
+        margin: 0 auto -60px;
+      }
+
+      /* Set the fixed height of the footer here */
+      #push,
+      #footer {
+        height: 60px;
+      }
+      #footer {
+        background-color: #f5f5f5;
+      }
+
+      /* Lastly, apply responsive CSS fixes as necessary */
+      @media (max-width: 767px) {
+        #footer {
+          margin-left: -20px;
+          margin-right: -20px;
+          padding-left: 20px;
+          padding-right: 20px;
+        }
+      }
+
+</style>
+    
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+  <!--  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script> -->
+    <script src="{% static "shapeEditor/js/jquery.min.js" %}" ></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="{% static "shapeEditor/js/bootstrap.min.js" %}" ></script>
+    <!-- Include openlayers library  -->
+    <script src="{% static "shapeEditor/js/OpenLayers.js" %}"></script>       
+    
+
+    <script src="http://openlayers.org/api/OpenLayers.js"></script>
+   
+   <script type="text/javascript">
+    OpenLayers.Control.Click = OpenLayers.Class(
+      OpenLayers.Control, {
+        defaultHandlerOptions: {
+        	'single' : true,
+        	'double' : false,
+        	'pixelTolerance' : 0,
+        	'stopSingle' : false,
+        	'stopDouble' : false
+       },
+       initialize: function(options) {
+       	       	this.handlerOptions = OpenLayers.Util.extend(
+       	       	  {}, this.defaultHandlerOptions);
+       	       	OpenLayers.Control.prototype.initialize.apply(
+       	       	  this, arguments);
+       	       	this.handler = new OpenLayers.Handler.Click(
+       	       	  this, {'click' : this.onClick}, this.handlerOptions);
+       },
+       onClick: function(e) {
+       	       var coord = map.getLonLatFromViewPortPx(e.xy);
+       	       var request = OpenLayers.Request.GET({
+       	       	   url : "{{ find_feature_url }}",
+       	       	   params  : {shapefile_id : {{ shapefile.id }},
+       	       	   latitude : coord.lat,
+       	       	   longitude : coord.lon},
+       	       	   callback : this.handleResponse
+       	       });
+       },
+       handleResponse: function(request) {
+       	 if (request.status != 200) {
+       	 	 alert("Server returned a "+request.status+" error");
+       	 	 return;
+       	 };
+       	 if (request.responseText != "") {
+       	 	 window.location.href = request.responseText;
+       	 };
+       }
+      }
+);
+      function init() {
+        map = new OpenLayers.Map('map',
+        		{maxResolution: 0.703125,
+        		numZoomLevels: 11});
+        layer = new OpenLayers.Layer.TMS('TMS',
+        		"{{ tms_url }}",
+        		{serviceVersion: "1.0",
+        		layername: "{{ shapefile.id }}",
+        		type: 'png'});
+        map.addLayer(layer);
+        map.zoomIn(2);
+
+	var click = new OpenLayers.Control.Click();
+        map.addControl(click);
+        click.activate();
+    }
+    </script>
+</head>
+
+
+<body onload="init()">
+
+<div id="wrap">
+   <div class="container">
+     <div class="span12">
+       <div class="masthead">
+        <div class="span8">
+          <h2 class="muted">ShapeEditor Project <small> Web  Application for Editing Shapefiles</small></h3>
+           </div> <!-- span8 -->
+         </div>
+<br/></br>
+         <div class="span 4 offset 8" >
+
+{% if full_name %}
+              You're logged in as {{full_name}}. <a href="/editor/logout/">Logout</a>
+{% else %}
+      
+You're not loggedIn! <a href="/editor/login/">LogIn Now</a>
+
+{% endif %}
+</div>
+</div> <!-- musthead-->
+
+</div>
+<div class="container">
+     <div class="span12">
+        <div class="navbar">
+          <div class="navbar-inner">
+            <ul class="nav nav-justified">
+               <li><a href="/editor">Home</a></li>
+          {% if full_name %}
+               <li><a href="/editor/import">Import Shapefile</a></li> {% endif %}
+               <li><a href="/editor/about">About</a></li>
+               <li><a href="/editor/help">Help</a></li>
+               <li><a href="/editor/contact">Contact</a></li>
+            </ul>
+         </div>
+        </div>
+       </div><!-- /.navbar -->
+      </div>
+<div class="container">
+
+ <div class="span12">
+  <h1>Edit Shapefile</h1>
+
+<div class="row">
+<div class="span6">Click on a feature to select it for editing </div> 
+<div class="span6" align="right"> <button type="button" class="btn btn-primary"
+     onClick='window.location="{{ add_feature_url }}";'>
+       Add Feature
+    </button> 
+   <button type="button" class="btn btn-primary" onClick='window.location="/editor";'> Cancel </button>
+   </div>
+</div>
+<div class="span12">
+    <div id="map" class="map"></div>
+  </div>
+    
+ </div>
+</div>
+
+<div id="footer">
+      <div class="container">
+         <p <p class="muted credit">ShapeEditor Project. CUNY Brooklyn College. REU. 2014</p>
+      </div>
+</div>
+</body>
+
+</html>

@@ -1,0 +1,18 @@
+{% extends "base_shapeeditor.html" %}
+{% block content %}
+<div class="span12">
+<h1>Change attribute value</h1>
+  
+<form enctype="multipart/form-data" action="" method="post" id="attributevalue_form">
+	
+       <label>Feature ID: {{ feature }} </label>
+       <label> Attribute: {{ name }} </label>
+       <label for="id_value">Value: {{ form }}<input class="vTextField" class="form-control" maxlength="255" name="attribute_value" type="text" value="{{ value }}" /> </label>
+       <button type="button" class="btn btn-primary" onClick='window.location="/editor/edit_feature/{{ shapefile }}/{{ feature }}";'/>Back to Feature</button> 
+      <input type="submit" class="btn btn-primary" value="Save"/>
+    
+</form>
+
+</div>
+{% endblock %}
+
